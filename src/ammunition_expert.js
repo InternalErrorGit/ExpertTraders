@@ -67,7 +67,6 @@ class AmmunitionExpert extends expert_trader_1.ExpertTrader {
                 ]
             ];
             assortTable.loyal_level_items[item._id] = 1;
-            console.log(item._props.Rarity);
             const questId = item._name + "_quest";
             const description = questId + "_description";
             const name = questId + "_name";
@@ -109,7 +108,7 @@ class AmmunitionExpert extends expert_trader_1.ExpertTrader {
                 failMessageText: failMessageText,
                 name: name,
                 note: note,
-                traderId: json._id,
+                traderId: "5935c25fb3acc3127c3d8cd9",
                 location: "5704e3c2d2720bac5b8b4567",
                 image: "/files/quest/icon/59c26f2b86f7744a351903d3.jpg",
                 type: "PickUp",
@@ -119,7 +118,7 @@ class AmmunitionExpert extends expert_trader_1.ExpertTrader {
                 secretQuest: false,
                 startedMessageText: startedMessageText,
                 successMessageText: successMessageText,
-                templateId: "",
+                templateId: questId,
                 rewards: {
                     AvailableForStart: [],
                     AvailableForFinish: [],
@@ -139,7 +138,6 @@ class AmmunitionExpert extends expert_trader_1.ExpertTrader {
                 changeQuestMessageText: changeQuestMessageText,
             };
             this.tables.templates.quests[questId] = itemQuest;
-            return assortTable;
         }
         return assortTable;
     }
