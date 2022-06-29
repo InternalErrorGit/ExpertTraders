@@ -3,7 +3,7 @@ import { IDatabaseTables } from "@spt-aki/models/spt/server/IDatabaseTables";
 import { ILocaleTradingProps } from "@spt-aki/models/spt/server/ILocaleBase";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { DependencyContainer } from "tsyringe";
-import { ItemParent } from "./constants";
+import { Blacklist, ItemParent } from "./constants";
 
 
 export abstract class ExpertTrader {
@@ -23,6 +23,13 @@ export abstract class ExpertTrader {
 
     public setMod(mod: string): void {
         this.mod = mod;
+    }
+
+    public isItemBlacklisted(id: string): boolean{
+        for(const listItem in Blacklist.List){
+            if(Blacklist.List[listItem] == id) return true;
+        }
+        return false;
     }
     
     public setDatabaseServer(databaseServer: DatabaseServer): void {

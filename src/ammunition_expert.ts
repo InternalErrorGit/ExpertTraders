@@ -2,7 +2,6 @@ import { ExpertTrader } from "./expert_trader";
 
 import { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
 import { Item } from "@spt-aki/models/eft/common/tables/IItem";
-import { IQuest } from "@spt-aki/models/eft/common/tables/IQuest";
 import { ITraderAssort } from "@spt-aki/models/eft/common/tables/ITrader";
 import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 import { ITraderConfig, UpdateTime } from "@spt-aki/models/spt/config/ITraderConfig";
@@ -15,10 +14,6 @@ import { ItemParent } from "./constants";
 
 export class AmmunitionExpert extends ExpertTrader {
 
-    private items = {
-        Ammo: "5485a8684bdc2da71d8b4567",
-        AmmoBox: "543be5cb4bdc2deb348b4568"
-    }
 
     constructor() {
         super();
@@ -37,7 +32,16 @@ export class AmmunitionExpert extends ExpertTrader {
             const parent = item._parent;
 
 
-            if (parent != ItemParent.Ammo && parent != ItemParent.AmmoBox) continue;
+
+            
+
+            if (
+                parent != ItemParent.Ammo &&
+                parent != ItemParent.AmmoBox
+            ) continue;
+
+            if(this.isItemBlacklisted(item._id)) continue;
+            const amount: number = item._props.StackMaxSize;
 
             const traderItem: Item = {
                 _id: item._id,
@@ -45,104 +49,28 @@ export class AmmunitionExpert extends ExpertTrader {
                 parentId: "hideout",
                 slotId: "hideout",
                 upd: {
-                    UnlimitedCount: true,
-                    StackObjectsCount: 999999999
+                    UnlimitedCount: false,
+                    StackObjectsCount: item._props.StackMaxSize*3
                 }
             };
 
+
             assortTable.items.push(traderItem);
+
+            const price: number = this.tables.templates.prices[item._id];
+
 
             assortTable.barter_scheme[item._id] = [
                 [
                     {
-                        count: 1,
+                        count: price,
                         _tpl: this.ROUBLE
                     }
                 ]
             ];
 
             assortTable.loyal_level_items[item._id] = 1;
-
-            
-
-            const questId: string = item._name + "_quest";
-            const description: string = questId + "_description";
-            const name: string = questId + "_name";
-            const note: string = questId + "_note";
-            const startedMessageText: string = questId + "_description";
-            const failMessageText: string = questId + "_failMessageText";
-            const successMessageText: string = questId + "_successMessageText";
-            const changeQuestMessageText: string = questId + "_changeQuestMessageText";
-
-            const itemQuest: IQuest = {
-                QuestName: item._name,
-                _id: questId,
-                canShowNotificationsInGame: true,
-                conditions: {
-                    Started: [],
-                    AvailableForFinish: [{
-                        _parent: "FindItem",
-                        _props: {
-                            dogtagLevel: 0,
-                            id: "5968ed3186f77420d2328013",
-                            index: 0,
-                            maxDurability: 100,
-                            minDurability: 0,
-                            parentId: "",
-                            onlyFoundInRaid: true,
-                            dynamicLocale: false,
-                            target: [
-                                "55d482194bdc2d1d4e8b456b"
-                            ],
-                            value: 3,
-                            visibilityConditions: []
-                        },
-                        dynamicLocale: false
-                    }],
-                    AvailableForStart: [],
-                    Success: [],
-                    Fail: []
-                },
-                description: description,
-                failMessageText: failMessageText,
-                name: name,
-                note: note,
-                traderId: "5935c25fb3acc3127c3d8cd9",
-                location: "any",
-                image: "/files/quest/icon/59c26f2b86f7744a351903d3.jpg",
-                type: "PickUp",
-                isKey: false,
-                restartable: false,
-                instantComplete: false,
-                secretQuest: false,
-                startedMessageText: startedMessageText,
-                successMessageText: successMessageText,
-                templateId: questId,
-                rewards: {
-                    AvailableForStart: [],
-                    AvailableForFinish: [],
-                    Started: [],
-                    Success: [{
-                        value: "5200",
-                        id: "60c8abe52238043a5267862f",
-                        type: "Experience",
-                        index: 0
-                    }],
-                    Fail: [],
-                    FailRestartable: [],
-                    Expired: []
-                },
-                status: "",
-                KeyQuest: false,
-                changeQuestMessageText: changeQuestMessageText,
-            }
-
-            this.tables.templates.quests[questId] = itemQuest;
-            return assortTable;
         }
-
-
-
 
         return assortTable;
     }
@@ -159,9 +87,9 @@ export class AmmunitionExpert extends ExpertTrader {
 
     public registerProfileImage(container: DependencyContainer): void {
         const initialModLoader = container.resolve<InitialModLoader>("InitialModLoader");
-        const imageFilepath = `./${initialModLoader.getModPath(this.mod)}res`;
+        const imageFilepath = `./${initialModLoader.getModPath("ExpertTraders")}res`;
         const imageRouter = container.resolve<ImageRouter>("ImageRouter");
-        imageRouter.addRoute(json.avatar.replace(".jpg", ""), `${imageFilepath}/${json._id}.jpg`);
+        imageRouter.addRoute(json.avatar.replace(".png", ""), `${imageFilepath}/${json._id}.png`);
     }
 
     public setupTraderUpdateTime(container: DependencyContainer): void {

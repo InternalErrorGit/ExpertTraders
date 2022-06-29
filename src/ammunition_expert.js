@@ -31,10 +31,6 @@ const constants_1 = require("./constants");
 class AmmunitionExpert extends expert_trader_1.ExpertTrader {
     constructor() {
         super();
-        this.items = {
-            Ammo: "5485a8684bdc2da71d8b4567",
-            AmmoBox: "543be5cb4bdc2deb348b4568"
-        };
     }
     createAssortTable() {
         const assortTable = {
@@ -45,99 +41,33 @@ class AmmunitionExpert extends expert_trader_1.ExpertTrader {
         for (const key in this.tables.templates.items) {
             const item = this.tables.templates.items[key];
             const parent = item._parent;
-            if (parent != constants_1.ItemParent.Ammo && parent != constants_1.ItemParent.AmmoBox)
+            if (parent != constants_1.ItemParent.Ammo &&
+                parent != constants_1.ItemParent.AmmoBox)
                 continue;
+            if (this.isItemBlacklisted(item._id))
+                continue;
+            const amount = item._props.StackMaxSize;
             const traderItem = {
                 _id: item._id,
                 _tpl: item._id,
                 parentId: "hideout",
                 slotId: "hideout",
                 upd: {
-                    UnlimitedCount: true,
-                    StackObjectsCount: 999999999
+                    UnlimitedCount: false,
+                    StackObjectsCount: item._props.StackMaxSize * 3
                 }
             };
             assortTable.items.push(traderItem);
+            const price = this.tables.templates.prices[item._id];
             assortTable.barter_scheme[item._id] = [
                 [
                     {
-                        count: 1,
+                        count: price,
                         _tpl: this.ROUBLE
                     }
                 ]
             ];
             assortTable.loyal_level_items[item._id] = 1;
-            const questId = item._name + "_quest";
-            const description = questId + "_description";
-            const name = questId + "_name";
-            const note = questId + "_note";
-            const startedMessageText = questId + "_description";
-            const failMessageText = questId + "_failMessageText";
-            const successMessageText = questId + "_successMessageText";
-            const changeQuestMessageText = questId + "_changeQuestMessageText";
-            const itemQuest = {
-                QuestName: item._name,
-                _id: questId,
-                canShowNotificationsInGame: true,
-                conditions: {
-                    Started: [],
-                    AvailableForFinish: [{
-                            _parent: "FindItem",
-                            _props: {
-                                dogtagLevel: 0,
-                                id: "5968ed3186f77420d2328013",
-                                index: 0,
-                                maxDurability: 100,
-                                minDurability: 0,
-                                parentId: "",
-                                onlyFoundInRaid: true,
-                                dynamicLocale: false,
-                                target: [
-                                    "55d482194bdc2d1d4e8b456b"
-                                ],
-                                value: 3,
-                                visibilityConditions: []
-                            },
-                            dynamicLocale: false
-                        }],
-                    AvailableForStart: [],
-                    Success: [],
-                    Fail: []
-                },
-                description: description,
-                failMessageText: failMessageText,
-                name: name,
-                note: note,
-                traderId: "5935c25fb3acc3127c3d8cd9",
-                location: "5704e3c2d2720bac5b8b4567",
-                image: "/files/quest/icon/59c26f2b86f7744a351903d3.jpg",
-                type: "PickUp",
-                isKey: false,
-                restartable: false,
-                instantComplete: false,
-                secretQuest: false,
-                startedMessageText: startedMessageText,
-                successMessageText: successMessageText,
-                templateId: questId,
-                rewards: {
-                    AvailableForStart: [],
-                    AvailableForFinish: [],
-                    Started: [],
-                    Success: [{
-                            value: "5200",
-                            id: "60c8abe52238043a5267862f",
-                            type: "Experience",
-                            index: 0
-                        }],
-                    Fail: [],
-                    FailRestartable: [],
-                    Expired: []
-                },
-                status: "",
-                KeyQuest: false,
-                changeQuestMessageText: changeQuestMessageText,
-            };
-            this.tables.templates.quests[questId] = itemQuest;
         }
         return assortTable;
     }
@@ -152,9 +82,9 @@ class AmmunitionExpert extends expert_trader_1.ExpertTrader {
     }
     registerProfileImage(container) {
         const initialModLoader = container.resolve("InitialModLoader");
-        const imageFilepath = `./${initialModLoader.getModPath(this.mod)}res`;
+        const imageFilepath = `./${initialModLoader.getModPath("ExpertTraders")}res`;
         const imageRouter = container.resolve("ImageRouter");
-        imageRouter.addRoute(json.avatar.replace(".jpg", ""), `${imageFilepath}/${json._id}.jpg`);
+        imageRouter.addRoute(json.avatar.replace(".png", ""), `${imageFilepath}/${json._id}.png`);
     }
     setupTraderUpdateTime(container) {
         const configServer = container.resolve("ConfigServer");

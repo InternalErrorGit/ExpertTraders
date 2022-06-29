@@ -14,10 +14,13 @@ import { JsonUtil } from "@spt-aki/utils/JsonUtil";
 import { Item } from "@spt-aki/models/eft/common/tables/IItem";
 import { ILocaleGlobalBase } from "@spt-aki/models/spt/server/ILocaleBase";
 
-// The new trader config
-import * as baseJson from "../db/base.json";
 import { ExpertTrader } from "./expert_trader";
 import { AmmunitionExpert } from "./ammunition_expert";
+import { WeaponExpert } from "./weapon_expert";
+import { PartExpert } from "./parts_expert";
+import { EquipmentExpert } from "./equipment_expert";
+import { BarterExpert } from "./barter_expert";
+import { MedicalExpert } from "./medical_expert";
 
 class SampleTrader implements IMod {
 
@@ -25,12 +28,17 @@ class SampleTrader implements IMod {
     private logger: ILogger;
 
     private traders: ExpertTrader[] = [
-        new AmmunitionExpert()
+        new AmmunitionExpert(),
+        new BarterExpert(),
+        new EquipmentExpert(),
+        new MedicalExpert(),
+        new PartExpert(),
+        new WeaponExpert()
     ]
 
 
     constructor() {
-        this.mod = "Expert Traders";
+        this.mod = "ExpertTraders";
     }
 
     public load(container: DependencyContainer): void {

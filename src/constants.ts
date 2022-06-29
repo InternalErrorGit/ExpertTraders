@@ -1,3 +1,53 @@
+export class Blacklist {
+    public static List = [
+        "5943d9c186f7745a13413ac9",
+        "5996f6fc86f7745e585b4de3",
+        "5996f6d686f77467977ba6cc",
+        "5996f6cb86f774678763a6ca",
+        "5cde8864d7f00c0010373be1",
+        "5d2f2ab648f03550091993ca",
+        "6241c316234b593b5676b637",
+        "5a687e7886f7740c4a5133fb",
+        "5939a00786f7742fe8132936",
+        "5937fc6786f7742cab753590",
+        "590de92486f77423d9312a33",
+        "5937fd0086f7742bf33fc198",
+        "5af04c0b86f774138708f78e",
+        "5b4c72b386f7745b453af9c0",
+        "5b4c72c686f77462ac37e907",
+        "609267a2bb3f46069c3e6c7d",
+        "60c080eb991ac167ad1c3ad4",
+        "619252352be33f26043400a7",
+        "593a87af86f774122f54a951",
+        "5b43237186f7742f3a4ab252",
+        "5b4c81a086f77417d26be63f",
+        "5b4c81bd86f77418a75ae159",
+        "58ac60eb86f77401897560ff",
+        "5c0a794586f77461c458f892",
+        "61bc85697113f767765c7fe7",
+        "61bcc89aef0f505f0c6cd0fc",
+        "590dde5786f77405e71908b2",
+        "5910922b86f7747d96753483",
+        "61b9e1aaef9a1b5d6a79899a",
+        "5e99711486f7744bfc4af328",
+        "5e99735686f7744bfc4af32c",
+        "5a0448bc86f774736f14efa8",
+        "5d53f4b7a4b936793d58c780",
+        "5dcbd56fdbd3d91b3e5468d5",
+        "5e81ebcd8e146c7080625e15",
+        "5e848cc2988a8701445df1e8",
+        "6087e570b998180e9f76dc24",
+        "5cdeb229d7f00c000e7ce174",
+        "5d52cc5ba4b9367408500062",
+        "5a29276886f77435ed1b117c",
+        "5a29284f86f77463ef3db363",
+        "59f32bb586f774757e1e8442",
+        "59f32c3b86f77472a31742f0",
+        "5d52d479a4b936793d58c76b",
+        "6241c2c2117ad530666a5108",
+        "544a3d0a4bdc2d1b388b4567"
+    ]
+}
 
 
 export enum ItemParent {
@@ -33,7 +83,6 @@ export enum ItemParent {
     Vest = "5448e5284bdc2dcb718b4567",
     Backpack = "5448e53e4bdc2d60728b4567",
     Armor = "5448e54d4bdc2dcc718b4568",
-
     ArmBand = "5b3f15d486f77432d0509248",
     Visors = "5448e5724bdc2ddf718b4568",
     FaceCover = "5a341c4686f77469e155819e",
@@ -88,7 +137,6 @@ export enum ItemParent {
     Revolver = "617f1ef5e8b54b0998387733",
     Shotgun = "5447b6094bdc2dc3278b4567",
     Smg = "5447b5e04bdc2d62278b4567",
-    //Special Weapons
     ThrowWeap = "543be6564bdc2df4348b4568",
     //#endregion Weapons
 
