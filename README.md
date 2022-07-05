@@ -1,7 +1,7 @@
 ## **TODO:**
 
 ### 1.0.0
-* disable flea
+* disable flea player offers
 * disable quest items
 * disable dev items
 * traders only buy items they sell
