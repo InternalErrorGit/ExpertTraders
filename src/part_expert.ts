@@ -3,24 +3,40 @@ import { ExpertTrader } from "./expert_trader";
 import { Insurance, LoyaltyLevel, Repair } from "@spt-aki/models/eft/common/tables/ITrader";
 import { ItemParent } from "./constants";
 
-export class EquipmentExpert extends ExpertTrader {
+export class PartExpert extends ExpertTrader {
 
-    private ID: string = "eb27fd2ab25dc3fa32596f97";
+    private ID: string = "af404ba7e96348bb1f942fe4";
 
     protected getTraderSellCategories(): ItemParent[] {
         return [
-            ItemParent.Vest,
-            ItemParent.Backpack,
-            ItemParent.Armor,
-            ItemParent.ArmBand,
-            ItemParent.Visors,
-            ItemParent.FaceCover,
-            ItemParent.ArmoredEquipment,
-            ItemParent.Headwear,
-            ItemParent.Headphones,
-            ItemParent.SimpleContainer,
-            ItemParent.LockableContainer,
-            ItemParent.MobContainer
+            ItemParent.Bipod,
+            ItemParent.Collimator,
+            ItemParent.Flashlight,
+            ItemParent.Foregrip,
+            ItemParent.Gasblock,
+            ItemParent.FlashHider,
+            ItemParent.MuzzleCombo,
+            ItemParent.Silencer,
+            ItemParent.Muzzle,
+            ItemParent.AssaultScope,
+            ItemParent.CompactCollimator,
+            ItemParent.IronSight,
+            ItemParent.OpticScope,
+            ItemParent.NightVision,
+            ItemParent.SpecialScope,
+            ItemParent.ThermalVision,
+            ItemParent.Sights,
+            ItemParent.TacticalCombo,
+            ItemParent.AuxiliaryMod,
+            ItemParent.Charge,
+            ItemParent.Magazine,
+            ItemParent.CylinderMagazine,
+            ItemParent.Mount,
+            ItemParent.Stock,
+            ItemParent.Barrel,
+            ItemParent.Handguard,
+            ItemParent.PistolGrip,
+            ItemParent.Receiver
         ];
     }
 
@@ -62,10 +78,10 @@ export class EquipmentExpert extends ExpertTrader {
     public createTraderBase() {
         this.traderBase = {
             _id: this.ID,
-            name: "Equipment",
-            nickname: "Equipment Expert",
+            name: "Part",
+            nickname: "Part Expert",
             surname: "Expert",
-            avatar: "/files/trader/avatar/equipment_expert.png",
+            avatar: "/files/trader/avatar/part_expert.png",
 
             unlockedByDefault: true,
             customization_seller: false,

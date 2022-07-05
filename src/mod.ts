@@ -2,25 +2,18 @@ import { DependencyContainer } from "tsyringe";
 
 // SPT types
 import { IMod } from "@spt-aki/models/external/mod";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { ImageRouter } from "@spt-aki/routers/ImageRouter";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { ITraderAssort, ITraderBase } from "@spt-aki/models/eft/common/tables/ITrader";
-import { ITraderConfig, UpdateTime } from "@spt-aki/models/spt/config/ITraderConfig";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-import { Item } from "@spt-aki/models/eft/common/tables/IItem";
 import { ILocaleGlobalBase } from "@spt-aki/models/spt/server/ILocaleBase";
+import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
+import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 
-import { ExpertTrader } from "./expert_trader";
+import { HashUtil } from "@spt-aki/utils/HashUtil";
 import { AmmunitionExpert } from "./ammunition_expert";
-import { WeaponExpert } from "./weapon_expert";
-import { PartExpert } from "./parts_expert";
-import { EquipmentExpert } from "./equipment_expert";
+import { ExpertTrader } from "./expert_trader";
 import { BarterExpert } from "./barter_expert";
+import { EquipmentExpert } from "./equipment_expert";
 import { MedicalExpert } from "./medical_expert";
+import { PartExpert } from "./part_expert";
+import { WeaponExpert } from "./weapon_expert";
 
 class SampleTrader implements IMod {
 
@@ -36,16 +29,17 @@ class SampleTrader implements IMod {
         new WeaponExpert()
     ]
 
-
     constructor() {
         this.mod = "ExpertTraders";
     }
 
     public load(container: DependencyContainer): void {
         this.logger = container.resolve<ILogger>("WinstonLogger");
+
         this.logger.debug(`[${this.mod}] Loading... `);
 
         this.traders.forEach(function (trader) {
+            trader.createTraderBase();
             trader.registerProfileImage(container);
             trader.setupTraderUpdateTime(container);
         });
@@ -56,22 +50,27 @@ class SampleTrader implements IMod {
     public delayedLoad(container: DependencyContainer): void {
         this.logger.debug(`[${this.mod}] Delayed Loading... `);
 
+        if (!globalThis.CustomQuestsAPI) {
+            console.error(`CustomQuestsAPI not found, are you sure a version of CustomQuests >= 2.2.0 is installed ?`);
+
+        }
+
         const databaseServer = container.resolve<DatabaseServer>("DatabaseServer");
-        const jsonUtil = container.resolve<JsonUtil>("JsonUtil");
         const tables = databaseServer.getTables();
 
         this.traders.forEach(function (trader) {
+
             trader.setDatabaseServer(databaseServer);
 
-            tables.traders[trader.getTraderId()] = {
-                assort: trader.createAssortTable(),
-                base: jsonUtil.deserialize(jsonUtil.serialize(trader.getJson())) as ITraderBase,
+            tables.traders[trader.getTraderBase()._id] = {
+                assort: trader.getTraderAssort(),
+                base: trader.getTraderBase(),
                 questassort: undefined
             };
 
             const locales = Object.values(tables.locales.global) as ILocaleGlobalBase[];
             for (const locale of locales) {
-                locale.trading[trader.getJson()._id] =  trader.getTraderLocale();
+                locale.trading[trader.getTraderBase()._id] = trader.getTraderLocale();
             }
         });
 

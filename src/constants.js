@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ItemParent = exports.Blacklist = void 0;
-class Blacklist {
+exports.ItemParent = exports.Constants = void 0;
+class Constants {
 }
-exports.Blacklist = Blacklist;
-Blacklist.List = [
+exports.Constants = Constants;
+Constants.itemBlacklist = [
     "5943d9c186f7745a13413ac9",
     "5996f6fc86f7745e585b4de3",
     "5996f6d686f77467977ba6cc",
@@ -43,7 +43,14 @@ Blacklist.List = [
     "5e848cc2988a8701445df1e8",
     "6087e570b998180e9f76dc24",
     "5cdeb229d7f00c000e7ce174",
-    "5d52cc5ba4b9367408500062"
+    "5d52cc5ba4b9367408500062",
+    "5a29276886f77435ed1b117c",
+    "5a29284f86f77463ef3db363",
+    "59f32bb586f774757e1e8442",
+    "59f32c3b86f77472a31742f0",
+    "5d52d479a4b936793d58c76b",
+    "6241c2c2117ad530666a5108",
+    "544a3d0a4bdc2d1b388b4567"
 ];
 var ItemParent;
 (function (ItemParent) {

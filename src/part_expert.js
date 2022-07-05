@@ -1,27 +1,43 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WeaponExpert = void 0;
+exports.PartExpert = void 0;
 const expert_trader_1 = require("./expert_trader");
 const constants_1 = require("./constants");
-class WeaponExpert extends expert_trader_1.ExpertTrader {
+class PartExpert extends expert_trader_1.ExpertTrader {
     constructor() {
         super(...arguments);
-        this.ID = "afd308634e862f32e42918f6";
+        this.ID = "af404ba7e96348bb1f942fe4";
     }
     getTraderSellCategories() {
         return [
-            constants_1.ItemParent.AssaultCarbine,
-            constants_1.ItemParent.AssaultRifle,
-            constants_1.ItemParent.SniperRifle,
-            constants_1.ItemParent.GrenadeLauncher,
-            constants_1.ItemParent.MachineGun,
-            constants_1.ItemParent.MarksmanRifle,
-            constants_1.ItemParent.Knife,
-            constants_1.ItemParent.Pistol,
-            constants_1.ItemParent.Revolver,
-            constants_1.ItemParent.Shotgun,
-            constants_1.ItemParent.Smg,
-            constants_1.ItemParent.ThrowWeap
+            constants_1.ItemParent.Bipod,
+            constants_1.ItemParent.Collimator,
+            constants_1.ItemParent.Flashlight,
+            constants_1.ItemParent.Foregrip,
+            constants_1.ItemParent.Gasblock,
+            constants_1.ItemParent.FlashHider,
+            constants_1.ItemParent.MuzzleCombo,
+            constants_1.ItemParent.Silencer,
+            constants_1.ItemParent.Muzzle,
+            constants_1.ItemParent.AssaultScope,
+            constants_1.ItemParent.CompactCollimator,
+            constants_1.ItemParent.IronSight,
+            constants_1.ItemParent.OpticScope,
+            constants_1.ItemParent.NightVision,
+            constants_1.ItemParent.SpecialScope,
+            constants_1.ItemParent.ThermalVision,
+            constants_1.ItemParent.Sights,
+            constants_1.ItemParent.TacticalCombo,
+            constants_1.ItemParent.AuxiliaryMod,
+            constants_1.ItemParent.Charge,
+            constants_1.ItemParent.Magazine,
+            constants_1.ItemParent.CylinderMagazine,
+            constants_1.ItemParent.Mount,
+            constants_1.ItemParent.Stock,
+            constants_1.ItemParent.Barrel,
+            constants_1.ItemParent.Handguard,
+            constants_1.ItemParent.PistolGrip,
+            constants_1.ItemParent.Receiver
         ];
     }
     getTraderInsurance() {
@@ -59,10 +75,10 @@ class WeaponExpert extends expert_trader_1.ExpertTrader {
     createTraderBase() {
         this.traderBase = {
             _id: this.ID,
-            name: "Weapon",
-            nickname: "Weapon Expert",
+            name: "Part",
+            nickname: "Part Expert",
             surname: "Expert",
-            avatar: "/files/trader/avatar/weapon_expert.png",
+            avatar: "/files/trader/avatar/part_expert.png",
             unlockedByDefault: true,
             customization_seller: false,
             location: "Reserve",
@@ -84,4 +100,4 @@ class WeaponExpert extends expert_trader_1.ExpertTrader {
         };
     }
 }
-exports.WeaponExpert = WeaponExpert;
+exports.PartExpert = PartExpert;

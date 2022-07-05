@@ -1,109 +1,85 @@
 import { ExpertTrader } from "./expert_trader";
 
-import { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
-import { Item } from "@spt-aki/models/eft/common/tables/IItem";
-import { ITraderAssort } from "@spt-aki/models/eft/common/tables/ITrader";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { ITraderConfig, UpdateTime } from "@spt-aki/models/spt/config/ITraderConfig";
-import { ILocaleTradingProps } from "@spt-aki/models/spt/server/ILocaleBase";
-import { ImageRouter } from "@spt-aki/routers/ImageRouter";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { DependencyContainer } from "tsyringe";
-import * as json from "../db/ammunition_expert.json";
+import { Insurance, LoyaltyLevel, Repair } from "@spt-aki/models/eft/common/tables/ITrader";
 import { ItemParent } from "./constants";
 
 export class AmmunitionExpert extends ExpertTrader {
 
+    private ID: string = "171bd1a5371091d724070769";
 
-    constructor() {
-        super();
+    protected getTraderSellCategories(): ItemParent[] {
+        return [
+            ItemParent.Ammo,
+            ItemParent.AmmoBox
+        ];
     }
 
-    public createAssortTable(): ITraderAssort {
-
-        const assortTable: ITraderAssort = {
-            items: [],
-            barter_scheme: {},
-            loyal_level_items: {}
-        }
-
-        for (const key in this.tables.templates.items) {
-            const item = this.tables.templates.items[key];
-            const parent = item._parent;
-
-
-
-            
-
-            if (
-                parent != ItemParent.Ammo &&
-                parent != ItemParent.AmmoBox
-            ) continue;
-
-            if(this.isItemBlacklisted(item._id)) continue;
-            const amount: number = item._props.StackMaxSize;
-
-            const traderItem: Item = {
-                _id: item._id,
-                _tpl: item._id,
-                parentId: "hideout",
-                slotId: "hideout",
-                upd: {
-                    UnlimitedCount: false,
-                    StackObjectsCount: item._props.StackMaxSize*3
-                }
-            };
-
-
-            assortTable.items.push(traderItem);
-
-            const price: number = this.tables.templates.prices[item._id];
-
-
-            assortTable.barter_scheme[item._id] = [
-                [
-                    {
-                        count: price,
-                        _tpl: this.ROUBLE
-                    }
-                ]
-            ];
-
-            assortTable.loyal_level_items[item._id] = 1;
-        }
-
-        return assortTable;
-    }
-
-    public getTraderLocale(): ILocaleTradingProps {
+    protected getTraderInsurance(): Insurance {
         return {
-            FullName: json.nickname,
-            FirstName: json.name,
-            Nickname: json.nickname,
-            Location: json.location,
-            Description: json.location
+            availability: false,
+            excluded_category: [],
+            max_return_hour: 0,
+            max_storage_time: 0,
+            min_payment: 0,
+            min_return_hour: 0,
         };
     }
 
-    public registerProfileImage(container: DependencyContainer): void {
-        const initialModLoader = container.resolve<InitialModLoader>("InitialModLoader");
-        const imageFilepath = `./${initialModLoader.getModPath("ExpertTraders")}res`;
-        const imageRouter = container.resolve<ImageRouter>("ImageRouter");
-        imageRouter.addRoute(json.avatar.replace(".png", ""), `${imageFilepath}/${json._id}.png`);
+    protected getTraderLoyalityLevels(): LoyaltyLevel[] {
+        return [{
+            buy_price_coef: 0,
+            exchange_price_coef: 0,
+            heal_price_coef: 0,
+            insurance_price_coef: 0,
+            minLevel: 1,
+            minSalesSum: 0,
+            minStanding: 0,
+            repair_price_coef: 0,
+        }];
     }
 
-    public setupTraderUpdateTime(container: DependencyContainer): void {
-        const configServer = container.resolve<ConfigServer>("ConfigServer");
-        const traderConfig = configServer.getConfig<ITraderConfig>(ConfigTypes.TRADER);
-        const traderRefreshConfig: UpdateTime = { traderId: json._id, seconds: 3600 }
-        traderConfig.updateTime.push(traderRefreshConfig);
+    protected getTraderRepair(): Repair {
+        return {
+            availability: false,
+            currency: this.ROUBLE,
+            currency_coefficient: 1,
+            excluded_category: [],
+            excluded_id_list: [],
+            quality: "2",
+        };
     }
 
-    public getTraderId(): string {
-        return json._id;
-    }
-    public getJson() {
-        return json;
+    public createTraderBase() {
+        this.traderBase = {
+            _id: this.ID,
+            name: "Ammunition",
+            nickname: "Ammunition Expert",
+            surname: "Expert",
+            avatar: "/files/trader/avatar/ammunition_expert.png",
+
+            unlockedByDefault: true,
+            customization_seller: false,
+            location: "Reserve",
+
+            currency: "RUB",
+            balance_dol: 0,
+            balance_eur: 0,
+            balance_rub: 5000000,
+            discount: 0,
+            discount_end: 0,
+            nextResupply: 1615141448,
+
+            sell_category: this.getTraderSellCategories(),
+            gridHeight: 150,
+            medic: false,
+
+            refreshAssort: false, // FIXME
+            buyer_up: false, // FIXME
+
+            insurance: this.getTraderInsurance(),
+            loyaltyLevels: this.getTraderLoyalityLevels(),
+            repair: this.getTraderRepair(),
+        }
     }
 
 }

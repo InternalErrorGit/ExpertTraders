@@ -1,5 +1,5 @@
-export class Blacklist {
-    public static List = [
+export class Constants {
+    public static itemBlacklist = [
         "5943d9c186f7745a13413ac9",
         "5996f6fc86f7745e585b4de3",
         "5996f6d686f77467977ba6cc",
