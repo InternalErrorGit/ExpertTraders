@@ -6,11 +6,10 @@ import { ILocaleGlobalBase } from "@spt-aki/models/spt/server/ILocaleBase";
 import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 
-import { HashUtil } from "@spt-aki/utils/HashUtil";
 import { AmmunitionExpert } from "./ammunition_expert";
-import { ExpertTrader } from "./expert_trader";
 import { BarterExpert } from "./barter_expert";
 import { EquipmentExpert } from "./equipment_expert";
+import { ExpertTrader } from "./expert_trader";
 import { MedicalExpert } from "./medical_expert";
 import { PartExpert } from "./part_expert";
 import { WeaponExpert } from "./weapon_expert";
